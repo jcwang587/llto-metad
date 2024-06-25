@@ -38,6 +38,7 @@ plt.ylabel("Reaction coordinate 2")
 for i, (x, y) in enumerate(local_minima_coords):
     plt.text(y, x, f"{i}", color="red")
 plt.colorbar()
+plt.savefig("mep_1_700k.png")
 plt.show()
 
 np.save("mep_fes_1_700k.npy", mep_fes_1_700k)
@@ -69,6 +70,7 @@ plt.ylabel("Reaction coordinate 2")
 for i, (x, y) in enumerate(local_minima_coords):
     plt.text(y, x, f"{i}", color="red")
 plt.colorbar()
+plt.savefig("mep_2_700k.png")
 plt.show()
 
 np.save("mep_fes_2_700k.npy", mep_fes_2_700k)
