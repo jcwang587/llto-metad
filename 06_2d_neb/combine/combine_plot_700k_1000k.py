@@ -39,7 +39,7 @@ ax1.set_ylim(0, 0.5)
 
 
 def remove_zero_tick_label(x, pos):
-    return "" if x == 0 else f"{x:.2f}"
+    return "" if x == 0 else f"{x:.1f}"
 
 
 ax1.yaxis.set_major_formatter(FuncFormatter(remove_zero_tick_label))
