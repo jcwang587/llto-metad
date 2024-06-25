@@ -14,7 +14,7 @@ def find_local_minima(data):
 fes = np.load("y_fes_100k.npy")
 
 local_minima_coords = find_local_minima(fes)
-n_images = 10
+n_images = 100
 n_steps = 1000
 spring_constant = 0.2
 
