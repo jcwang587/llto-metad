@@ -17,7 +17,7 @@ fes = np.load("y_fes_700k.npy")
 fes = np.tile(fes, (1, 2))
 
 local_minima_coords = find_local_minima(fes)
-n_images = 10
+n_images = 100
 n_steps = 1000
 spring_constant = 0.2
 
@@ -48,7 +48,7 @@ fes = np.load("y_fes_700k.npy")
 fes = np.tile(fes, (2, 1))
 
 local_minima_coords = find_local_minima(fes)
-n_images = 10
+n_images = 100
 n_steps = 1000
 spring_constant = 0.2
 
