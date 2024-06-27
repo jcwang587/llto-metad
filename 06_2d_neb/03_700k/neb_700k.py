@@ -1,14 +1,6 @@
-from xdatbus import neb_2d
+from xdatbus import neb_2d, local_minima
 import numpy as np
-from scipy.ndimage import minimum_filter
 import matplotlib.pyplot as plt
-
-
-def find_local_minima(data):
-    filtered_data = minimum_filter(data, size=100, mode="constant", cval=np.inf)
-    local_minima = data == filtered_data
-    local_minima_coords = np.argwhere(local_minima)
-    return local_minima_coords
 
 
 fes = np.load("y_fes_700k.npy")
@@ -16,7 +8,7 @@ fes = np.load("y_fes_700k.npy")
 # copy fes along the reaction coordinate 1
 fes = np.tile(fes, (1, 2))
 
-local_minima_coords = find_local_minima(fes)
+local_minima_coords = local_minima(fes)
 n_images = 100
 n_steps = 1000
 spring_constant = 0.2
@@ -48,7 +40,7 @@ fes = np.load("y_fes_700k.npy")
 # copy fes along the reaction coordinate 2
 fes = np.tile(fes, (2, 1))
 
-local_minima_coords = find_local_minima(fes)
+local_minima_coords = local_minima(fes)
 n_images = 100
 n_steps = 1000
 spring_constant = 0.2
