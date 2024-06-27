@@ -64,3 +64,8 @@ np.save("mep_fes_13_300k.npy", mep_fes_13_300k)
 np.save("mep_fes_32_300k.npy", mep_fes_32_300k)
 np.save("mep_fes_20_300k.npy", mep_fes_20_300k)
 np.save("mep_fes_01_300k.npy", mep_fes_01_300k)
+
+np.save("mep_13_300k.npy", mep_13_300k)
+np.save("mep_32_300k.npy", mep_32_300k)
+np.save("mep_20_300k.npy", mep_20_300k)
+np.save("mep_01_300k.npy", mep_01_300k)
