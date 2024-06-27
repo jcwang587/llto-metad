@@ -17,7 +17,7 @@ mep_3 = np.load('../../06_2d_neb/01_100k/mep_20_100k.npy')
 mep_4 = np.load('../../06_2d_neb/01_100k/mep_01_100k.npy')
 
 # define the sphere radius 8
-ra = 8
+ra = 6
 
 # mep_1
 unique_indices = set()
@@ -30,7 +30,7 @@ for mep_points in mep_1:
     for i in range(fes_size[0]):
         for j in range(fes_size[1]):
             for k in range(fes_size[2]):
-                if (i - mep_points[0]) ** 2 + (j - mep_points[1]) ** 2 + (k - 31) ** 2 <= ra ** 2:
+                if (i - mep_points[0]) ** 2 + (j - 31) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
                     index_tuple = (i, j, k)
                     if index_tuple not in unique_indices:
                         unique_indices.add(index_tuple)
@@ -50,7 +50,7 @@ for mep_points in mep_2:
     for i in range(fes_size[0]):
         for j in range(fes_size[1]):
             for k in range(fes_size[2]):
-                if (i - mep_points[0]) ** 2 + (j - mep_points[1]) ** 2 + (k - 31) ** 2 <= ra ** 2:
+                if (i - mep_points[0]) ** 2 + (j - 31) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
                     index_tuple = (i, j, k)
                     if index_tuple not in unique_indices:
                         unique_indices.add(index_tuple)
@@ -70,7 +70,7 @@ for mep_points in mep_3:
     for i in range(fes_size[0]):
         for j in range(fes_size[1]):
             for k in range(fes_size[2]):
-                if (i - mep_points[0]) ** 2 + (j - mep_points[1]) ** 2 + (k - 31) ** 2 <= ra ** 2:
+                if (i - mep_points[0]) ** 2 + (j - 31) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
                     index_tuple = (i, j, k)
                     if index_tuple not in unique_indices:
                         unique_indices.add(index_tuple)
@@ -90,7 +90,7 @@ for mep_points in mep_4:
     for i in range(fes_size[0]):
         for j in range(fes_size[1]):
             for k in range(fes_size[2]):
-                if (i - mep_points[0]) ** 2 + (j - mep_points[1]) ** 2 + (k - 31) ** 2 <= ra ** 2:
+                if (i - mep_points[0]) ** 2 + (j - 31) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
                     index_tuple = (i, j, k)
                     if index_tuple not in unique_indices:
                         unique_indices.add(index_tuple)
@@ -149,10 +149,10 @@ fig.update_layout(scene=dict(
 # Show the plot
 fig.write_html('3d_plot.html')
 
-# project the HILLS_700K data onto the arc
+# project the data onto the arc
 M = len(result_1)
 N = len(arc_points_1)
-
+bins_num = 46
 s_1 = []
 c = 1.0
 for i in range(M):
@@ -161,18 +161,22 @@ for i in range(M):
     print("arc1: ", i)
     for j in range(N):
         s_a += (j - 1) * np.exp(
-            -c * (result_1[i][0] - arc_points_1[j, 0]) ** 2 - c * (result_1[i][2] - arc_points_1[j, 1]) ** 2)
+            - c * (result_1[i][0] - arc_points_1[j, 0]) ** 2
+            - c * (result_1[i][1] - 31) ** 2
+            - c * (result_1[i][2] - arc_points_1[j, 1]) ** 2)
         s_b += np.exp(
-            -c * (result_1[i][0] - arc_points_1[j, 0]) ** 2 - c * (result_1[i][2] - arc_points_1[j, 1]) ** 2)
+            - c * (result_1[i][0] - arc_points_1[j, 0]) ** 2
+            - c * (result_1[i][1] - 31) ** 2
+            - c * (result_1[i][2] - arc_points_1[j, 1]) ** 2)
     s_i = 1 / (N - 1) * s_a / s_b
     s_1.append(s_i)
 
 result_1 = np.column_stack((result_1, s_1))
 
 # generate the 100 bins for s and if s falls into the bin, add the H value to the same bin
-s_bins_1 = np.linspace(min(s_1), max(s_1), 101)
-H_bins_1 = np.zeros(100)
-for i in range(100):
+s_bins_1 = np.linspace(min(s_1), max(s_1), bins_num)
+H_bins_1 = np.zeros(bins_num - 1)
+for i in range(bins_num - 1):
     for j in range(M):
         if s_bins_1[i] <= s_1[j] < s_bins_1[i + 1]:
             H_bins_1[i] += result_1[j][4]
@@ -180,7 +184,7 @@ for i in range(100):
 # convert H to free energy
 fes_bins_1 = -kb * t * np.log(H_bins_1)
 fes_bins_1 -= min(fes_bins_1)
-fes_smooth_1 = lowess(fes_bins_1, s_bins_1[:-1], frac=0.1, return_sorted=False)
+fes_smooth_1 = lowess(fes_bins_1, s_bins_1[:-1], frac=0.2, return_sorted=False)
 
 sns.set(style='whitegrid', palette='muted', font_scale=1.5)
 sns.set_context('paper')
@@ -208,6 +212,8 @@ plt.tight_layout()
 plt.savefig('path_based_cv_1.png', dpi=300)
 plt.show()
 
+M = len(result_2)
+N = len(arc_points_2)
 s_2 = []
 for i in range(M):
     s_a = 0.0
@@ -215,17 +221,22 @@ for i in range(M):
     print("arc2: ", i)
     for j in range(N):
         s_a += (j - 1) * np.exp(
-            -c * (result_2[i][0] - arc_points_2[j, 0]) ** 2 - c * (result_2[i][2] - arc_points_2[j, 1]) ** 2)
-        s_b += np.exp(-c * (result_2[i][0] - arc_points_2[j, 0]) ** 2 - c * (result_2[i][2] - arc_points_2[j, 1]) ** 2)
+            - c * (result_2[i][0] - arc_points_2[j, 0]) ** 2
+            - c * (result_2[i][1] - 31) ** 2
+            - c * (result_2[i][2] - arc_points_2[j, 1]) ** 2)
+        s_b += np.exp(
+            - c * (result_2[i][0] - arc_points_2[j, 0]) ** 2
+            - c * (result_2[i][1] - 31) ** 2
+            - c * (result_2[i][2] - arc_points_2[j, 1]) ** 2)
     s_i = 1 / (N - 1) * s_a / s_b
     s_2.append(s_i)
 
 result_2 = np.column_stack((result_2, s_2))
 
 # generate the 100 bins for s and if s falls into the bin, add the H value to the same bin
-s_bins_2 = np.linspace(min(s_2), max(s_2), 101)
-H_bins_2 = np.zeros(100)
-for i in range(100):
+s_bins_2 = np.linspace(min(s_2), max(s_2), bins_num)
+H_bins_2 = np.zeros(bins_num - 1)
+for i in range(bins_num - 1):
     for j in range(M):
         if s_bins_2[i] <= s_2[j] < s_bins_2[i + 1]:
             H_bins_2[i] += result_2[j][4]
@@ -233,7 +244,7 @@ for i in range(100):
 # convert H to free energy
 fes_bins_2 = -kb * t * np.log(H_bins_2)
 fes_bins_2 -= min(fes_bins_2)
-fes_smooth_2 = lowess(fes_bins_2, s_bins_2[:-1], frac=0.1, return_sorted=False)
+fes_smooth_2 = lowess(fes_bins_2, s_bins_2[:-1], frac=0.2, return_sorted=False)
 
 sns.set(style='whitegrid', palette='muted', font_scale=1.5)
 sns.set_context('paper')
@@ -261,6 +272,8 @@ plt.tight_layout()
 plt.savefig('path_based_cv_2.png', dpi=300)
 plt.show()
 
+M = len(result_3)
+N = len(arc_points_3)
 s_3 = []
 for i in range(M):
     s_a = 0.0
@@ -268,17 +281,22 @@ for i in range(M):
     print("arc3: ", i)
     for j in range(N):
         s_a += (j - 1) * np.exp(
-            -c * (result_3[i][0] - arc_points_3[j, 0]) ** 2 - c * (result_3[i][2] - arc_points_3[j, 1]) ** 2)
-        s_b += np.exp(-c * (result_3[i][0] - arc_points_3[j, 0]) ** 2 - c * (result_3[i][2] - arc_points_3[j, 1]) ** 2)
+            - c * (result_3[i][0] - arc_points_3[j, 0]) ** 2
+            - c * (result_3[i][1] - 31) ** 2
+            - c * (result_3[i][2] - arc_points_3[j, 1]) ** 2)
+        s_b += np.exp(
+            - c * (result_3[i][0] - arc_points_3[j, 0]) ** 2
+            - c * (result_3[i][1] - 31) ** 2
+            - c * (result_3[i][2] - arc_points_3[j, 1]) ** 2)
     s_i = 1 / (N - 1) * s_a / s_b
     s_3.append(s_i)
 
 result_3 = np.column_stack((result_3, s_3))
 
 # generate the 100 bins for s and if s falls into the bin, add the H value to the same bin
-s_bins_3 = np.linspace(min(s_3), max(s_3), 101)
-H_bins_3 = np.zeros(100)
-for i in range(100):
+s_bins_3 = np.linspace(min(s_3), max(s_3), bins_num)
+H_bins_3 = np.zeros(bins_num - 1)
+for i in range(bins_num - 1):
     for j in range(M):
         if s_bins_3[i] <= s_3[j] < s_bins_3[i + 1]:
             H_bins_3[i] += result_3[j][4]
@@ -286,7 +304,7 @@ for i in range(100):
 # convert H to free energy
 fes_bins_3 = -kb * t * np.log(H_bins_3)
 fes_bins_3 -= min(fes_bins_3)
-fes_smooth_3 = lowess(fes_bins_3, s_bins_3[:-1], frac=0.1, return_sorted=False)
+fes_smooth_3 = lowess(fes_bins_3, s_bins_3[:-1], frac=0.2, return_sorted=False)
 
 sns.set(style='whitegrid', palette='muted', font_scale=1.5)
 sns.set_context('paper')
@@ -314,6 +332,8 @@ plt.tight_layout()
 plt.savefig('path_based_cv_3.png', dpi=300)
 plt.show()
 
+M = len(result_4)
+N = len(arc_points_4)
 s_4 = []
 for i in range(M):
     s_a = 0.0
@@ -321,17 +341,22 @@ for i in range(M):
     print("arc4: ", i)
     for j in range(N):
         s_a += (j - 1) * np.exp(
-            -c * (result_4[i][0] - arc_points_4[j, 0]) ** 2 - c * (result_4[i][2] - arc_points_4[j, 1]) ** 2)
-        s_b += np.exp(-c * (result_4[i][0] - arc_points_4[j, 0]) ** 2 - c * (result_4[i][2] - arc_points_4[j, 1]) ** 2)
+            - c * (result_4[i][0] - arc_points_4[j, 0]) ** 2
+            - c * (result_4[i][1] - 31) ** 2
+            - c * (result_4[i][2] - arc_points_4[j, 1]) ** 2)
+        s_b += np.exp(
+            - c * (result_4[i][0] - arc_points_4[j, 0]) ** 2
+            - c * (result_4[i][1] - 31) ** 2
+            - c * (result_4[i][2] - arc_points_4[j, 1]) ** 2)
     s_i = 1 / (N - 1) * s_a / s_b
     s_4.append(s_i)
 
 result_4 = np.column_stack((result_4, s_4))
 
 # generate the 100 bins for s and if s falls into the bin, add the H value to the same bin
-s_bins_4 = np.linspace(min(s_4), max(s_4), 101)
-H_bins_4 = np.zeros(100)
-for i in range(100):
+s_bins_4 = np.linspace(min(s_4), max(s_4), bins_num)
+H_bins_4 = np.zeros(bins_num - 1)
+for i in range(bins_num - 1):
     for j in range(M):
         if s_bins_4[i] <= s_4[j] < s_bins_4[i + 1]:
             H_bins_4[i] += result_4[j][4]
@@ -339,7 +364,7 @@ for i in range(100):
 # convert H to free energy
 fes_bins_4 = -kb * t * np.log(H_bins_4)
 fes_bins_4 -= min(fes_bins_4)
-fes_smooth_4 = lowess(fes_bins_4, s_bins_4[:-1], frac=0.1, return_sorted=False)
+fes_smooth_4 = lowess(fes_bins_4, s_bins_4[:-1], frac=0.2, return_sorted=False)
 
 sns.set(style='whitegrid', palette='muted', font_scale=1.5)
 sns.set_context('paper')
@@ -368,12 +393,12 @@ plt.savefig('path_based_cv_4.png', dpi=300)
 plt.show()
 
 # export the fes_smooth_1, fes_smooth_2, fes_smooth_3, fes_smooth_4 to a npy file
-np.save('../combine_plot/100k_fes_smooth_1.npy', fes_smooth_1)
-np.save('../combine_plot/100k_fes_smooth_2.npy', fes_smooth_2)
-np.save('../combine_plot/100k_fes_smooth_3.npy', fes_smooth_3)
-np.save('../combine_plot/100k_fes_smooth_4.npy', fes_smooth_4)
+np.save('../combine_plot/100k_fes_smooth_1.npy', fes_smooth_1[1:])
+np.save('../combine_plot/100k_fes_smooth_2.npy', fes_smooth_2[1:])
+np.save('../combine_plot/100k_fes_smooth_3.npy', fes_smooth_3[1:])
+np.save('../combine_plot/100k_fes_smooth_4.npy', fes_smooth_4[1:])
 # export the s_bins_1, s_bins_2, s_bins_3, s_bins_4 to a npy file
-np.save('../combine_plot/100k_s_bins_1.npy', s_bins_1[:-1])
-np.save('../combine_plot/100k_s_bins_2.npy', s_bins_2[:-1])
-np.save('../combine_plot/100k_s_bins_3.npy', s_bins_3[:-1])
-np.save('../combine_plot/100k_s_bins_4.npy', s_bins_4[:-1])
+np.save('../combine_plot/100k_s_bins_1.npy', s_bins_1[1:-1])
+np.save('../combine_plot/100k_s_bins_2.npy', s_bins_2[1:-1])
+np.save('../combine_plot/100k_s_bins_3.npy', s_bins_3[1:-1])
+np.save('../combine_plot/100k_s_bins_4.npy', s_bins_4[1:-1])
