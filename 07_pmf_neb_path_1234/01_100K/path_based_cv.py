@@ -11,85 +11,112 @@ t = 100
 # load npy file
 fes = np.load('fes_data_3d.npy')
 fes_size = fes.shape
-x = np.load('x_data_1d.npy')
-y = np.load('y_data_1d.npy')
-z = np.load('z_data_1d.npy')
-mep_01 = np.load('../../06_2d_neb/01_100k/mep_13_100k.npy')
-mep_02 = np.load('../../06_2d_neb/01_100k/mep_32_100k.npy')
-mep_03 = np.load('../../06_2d_neb/01_100k/mep_20_100k.npy')
-mep_04 = np.load('../../06_2d_neb/01_100k/mep_01_100k.npy')
-# map mep from 0-64 to -0.5-4.5
-mep_01 = mep_01 / 64 * 5 - 0.5
-mep_02 = mep_02 / 64 * 5 - 0.5
-mep_03 = mep_03 / 64 * 5 - 0.5
-mep_04 = mep_04 / 64 * 5 - 0.5
+mep_1 = np.load('../../06_2d_neb/01_100k/mep_13_100k.npy')
+mep_2 = np.load('../../06_2d_neb/01_100k/mep_32_100k.npy')
+mep_3 = np.load('../../06_2d_neb/01_100k/mep_20_100k.npy')
+mep_4 = np.load('../../06_2d_neb/01_100k/mep_01_100k.npy')
 
-# split into 4 part with 1: first half of x, first half of z, 2: first half of x, second half of z, 3: second half of
-# x, first half of z, 4: second half of x, second half of z
-fes_1 = fes[0:fes_size[0] // 2, :, 0:fes_size[2] // 2]
-fes_2 = fes[0:fes_size[0] // 2, :, fes_size[2] // 2:]
-fes_3 = fes[fes_size[0] // 2:, :, 0:fes_size[2] // 2]
-fes_4 = fes[fes_size[0] // 2:, :, fes_size[2] // 2:]
+# define the sphere radius 8
+ra = 8
 
-# Calculate indices for each section
-x_half = len(x) // 2
-z_half = len(z) // 2
+# mep_1
+unique_indices = set()
+fes_1 = []
+x_1 = []
+y_1 = []
+z_1 = []
+for mep_points in mep_1:
+    print("mep1: ", mep_points)
+    for i in range(fes_size[0]):
+        for j in range(fes_size[1]):
+            for k in range(fes_size[2]):
+                if (i - mep_points[0]) ** 2 + (j - mep_points[1]) ** 2 + (k - 31) ** 2 <= ra ** 2:
+                    index_tuple = (i, j, k)
+                    if index_tuple not in unique_indices:
+                        unique_indices.add(index_tuple)
+                        fes_1.append(fes[i, j, k])
+                        x_1.append(i)
+                        y_1.append(j)
+                        z_1.append(k)
 
-# Part 1: First half of x, all y, first half of z
-x_part_1 = x[:x_half]
-x_part_2 = x[x_half:]
-z_part_1 = z[:z_half]
-z_part_2 = z[z_half:]
+# mep_2
+unique_indices = set()
+fes_2 = []
+x_2 = []
+y_2 = []
+z_2 = []
+for mep_points in mep_2:
+    print("mep2: ", mep_points)
+    for i in range(fes_size[0]):
+        for j in range(fes_size[1]):
+            for k in range(fes_size[2]):
+                if (i - mep_points[0]) ** 2 + (j - mep_points[1]) ** 2 + (k - 31) ** 2 <= ra ** 2:
+                    index_tuple = (i, j, k)
+                    if index_tuple not in unique_indices:
+                        unique_indices.add(index_tuple)
+                        fes_2.append(fes[i, j, k])
+                        x_2.append(i)
+                        y_2.append(j)
+                        z_2.append(k)
+
+# mep_3
+unique_indices = set()
+fes_3 = []
+x_3 = []
+y_3 = []
+z_3 = []
+for mep_points in mep_3:
+    print("mep3: ", mep_points)
+    for i in range(fes_size[0]):
+        for j in range(fes_size[1]):
+            for k in range(fes_size[2]):
+                if (i - mep_points[0]) ** 2 + (j - mep_points[1]) ** 2 + (k - 31) ** 2 <= ra ** 2:
+                    index_tuple = (i, j, k)
+                    if index_tuple not in unique_indices:
+                        unique_indices.add(index_tuple)
+                        fes_3.append(fes[i, j, k])
+                        x_3.append(i)
+                        y_3.append(j)
+                        z_3.append(k)
+
+# mep_4
+unique_indices = set()
+fes_4 = []
+x_4 = []
+y_4 = []
+z_4 = []
+for mep_points in mep_4:
+    print("mep4: ", mep_points)
+    for i in range(fes_size[0]):
+        for j in range(fes_size[1]):
+            for k in range(fes_size[2]):
+                if (i - mep_points[0]) ** 2 + (j - mep_points[1]) ** 2 + (k - 31) ** 2 <= ra ** 2:
+                    index_tuple = (i, j, k)
+                    if index_tuple not in unique_indices:
+                        unique_indices.add(index_tuple)
+                        fes_4.append(fes[i, j, k])
+                        x_4.append(i)
+                        y_4.append(j)
+                        z_4.append(k)
 
 # Create mesh grids for coordinates
-X1, Y, Z1 = np.meshgrid(x_part_1, y, z_part_1, indexing='ij')
-X1_flat = X1.flatten()
-Y_flat = Y.flatten()
-Z1_flat = Z1.flatten()
-fes_1_flat = fes_1.flatten()
-H_1 = np.exp(-fes_1_flat / (kb * t))
-result_1 = np.column_stack((X1_flat, Y_flat, Z1_flat, fes_1_flat, H_1))
+H_1 = np.exp(-np.array(fes_1) / (kb * t))
+result_1 = np.column_stack((x_1, y_1, z_1, fes_1, H_1))
 
-X1, Y, Z2 = np.meshgrid(x_part_1, y, z_part_2, indexing='ij')
-X1_flat = X1.flatten()
-Y_flat = Y.flatten()
-Z2_flat = Z2.flatten()
-fes_2_flat = fes_2.flatten()
-H_2 = np.exp(-fes_2_flat / (kb * t))
-result_2 = np.column_stack((X1_flat, Y_flat, Z2_flat, fes_2_flat, H_2))
+H_2 = np.exp(-np.array(fes_2) / (kb * t))
+result_2 = np.column_stack((x_2, y_2, z_2, fes_2, H_2))
 
-X2, Y, Z1 = np.meshgrid(x_part_2, y, z_part_1, indexing='ij')
-X2_flat = X2.flatten()
-Y_flat = Y.flatten()
-Z1_flat = Z1.flatten()
-fes_3_flat = fes_3.flatten()
-H_3 = np.exp(-fes_3_flat / (kb * t))
-result_3 = np.column_stack((X2_flat, Y_flat, Z1_flat, fes_3_flat, H_3))
+H_3 = np.exp(-np.array(fes_3) / (kb * t))
+result_3 = np.column_stack((x_3, y_3, z_3, fes_3, H_3))
 
-X2, Y, Z2 = np.meshgrid(x_part_2, y, z_part_2, indexing='ij')
-X2_flat = X2.flatten()
-Y_flat = Y.flatten()
-Z2_flat = Z2.flatten()
-fes_4_flat = fes_4.flatten()
-H_4 = np.exp(-fes_4_flat / (kb * t))
-result_4 = np.column_stack((X2_flat, Y_flat, Z2_flat, fes_4_flat, H_4))
+H_4 = np.exp(-np.array(fes_4) / (kb * t))
+result_4 = np.column_stack((x_4, y_4, z_4, fes_4, H_4))
 
-x_mid = (x[0] + x[-1]) / 2
-z_mid = (z[0] + z[-1]) / 2
-x_center = x[0]
-z_center = z[0]
-radius = x_mid - x[0]
-theta = np.linspace(0, np.pi / 2, 100)
-arc_x = x_center + radius * np.cos(theta)
-arc_z = z_center + radius * np.sin(theta)
-# arc_points_1 = np.column_stack((arc_x, arc_z))
-# arc_points_2 = np.column_stack((arc_x, 4 - arc_z))
-# arc_points_3 = np.column_stack((4 - arc_x, arc_z))
-# arc_points_4 = np.column_stack((4 - arc_x, 4 - arc_z))
-arc_points_1 = mep_04
-arc_points_2 = mep_03
-arc_points_3 = mep_01
-arc_points_4 = mep_02
+
+arc_points_1 = mep_1
+arc_points_2 = mep_2
+arc_points_3 = mep_3
+arc_points_4 = mep_4
 
 # Create a Plotly figure
 fig = go.Figure()
@@ -181,7 +208,6 @@ plt.tight_layout()
 plt.savefig('path_based_cv_1.png', dpi=300)
 plt.show()
 
-
 s_2 = []
 for i in range(M):
     s_a = 0.0
@@ -235,7 +261,6 @@ plt.tight_layout()
 plt.savefig('path_based_cv_2.png', dpi=300)
 plt.show()
 
-
 s_3 = []
 for i in range(M):
     s_a = 0.0
@@ -288,7 +313,6 @@ ax2.tick_params(axis='y', labelcolor=color, labelsize=16)
 plt.tight_layout()
 plt.savefig('path_based_cv_3.png', dpi=300)
 plt.show()
-
 
 s_4 = []
 for i in range(M):
