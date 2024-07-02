@@ -16,7 +16,7 @@ mep_2 = np.load('../../06_2d_neb/01_100k/mep_32_100k.npy')
 mep_3 = np.load('../../06_2d_neb/01_100k/mep_20_100k.npy')
 mep_4 = np.load('../../06_2d_neb/01_100k/mep_01_100k.npy')
 
-# define the sphere radius 8
+# define the sphere radius
 ra = 6
 
 # mep_1
