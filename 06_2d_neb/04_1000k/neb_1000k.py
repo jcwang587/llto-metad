@@ -104,7 +104,7 @@ plt.colorbar()
 plt.savefig("mep_1000k_path5-mir-rev.png")
 plt.show()
 
-np.save("mep_1000k_path5-mir-rev.npy", mep_fes_1000k_path5_mir_rev)
+np.save("mep_fes_1000k_path5-mir-rev.npy", mep_fes_1000k_path5_mir_rev)
 
 
 fes = np.load("y_fes_1000k.npy")
@@ -139,7 +139,7 @@ plt.colorbar()
 plt.savefig("mep_1000k_path5-mir.png")
 plt.show()
 
-np.save("mep_1000k_path5-mir.npy", mep_fes_1000k_path5_mir)
+np.save("mep_fes_1000k_path5-mir.npy", mep_fes_1000k_path5_mir)
 
 print("max mep_1000k_path6-mir-rev.npy", np.max(mep_fes_1000k_path6_mir_rev)-np.min(mep_fes_1000k_path6_mir_rev))
 print("max mep_1000k_path6-mir.npy", np.max(mep_fes_1000k_path6_mir)-np.min(mep_fes_1000k_path6_mir))
