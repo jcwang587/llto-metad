@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 fes = np.load("y_fes_700k.npy")
 
 # copy fes along the reaction coordinate 1
-fes = np.tile(fes, (1, 2))
+mirrored_fes = np.flip(fes, axis=1)
+fes = np.concatenate((mirrored_fes, fes), axis=1)
 
 # remove the middle 13 columns of 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69
 fes = np.delete(fes, [57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69], axis=1)
