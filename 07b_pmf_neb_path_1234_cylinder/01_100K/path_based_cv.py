@@ -4,6 +4,13 @@ import plotly.graph_objects as go
 import seaborn as sns
 from statsmodels.nonparametric.smoothers_lowess import lowess
 
+
+def calculate_length(mep):
+    diff = np.diff(mep, axis=0)
+    segment_lengths = np.sqrt(np.sum(diff ** 2, axis=1))
+    return np.sum(segment_lengths)
+
+
 # define the constants
 kb = 8.617333262145e-5
 t = 100
@@ -16,8 +23,14 @@ mep_2 = np.load('../../06_2d_neb/01_100k/mep_32_100k.npy')
 mep_3 = np.load('../../06_2d_neb/01_100k/mep_20_100k.npy')
 mep_4 = np.load('../../06_2d_neb/01_100k/mep_01_100k.npy')
 
+# get the length of the mep
+length_1 = calculate_length(mep_1)
+length_2 = calculate_length(mep_2)
+length_3 = calculate_length(mep_3)
+length_4 = calculate_length(mep_4)
+
 # define the sphere radius
-ra = 6
+ra = (length_1 + length_2 + length_3 + length_4) / 4 / 4
 
 # mep_1
 unique_indices = set()
@@ -30,7 +43,7 @@ for mep_points in mep_1:
     for i in range(fes_size[0]):
         for j in range(fes_size[1]):
             for k in range(fes_size[2]):
-                if (i - mep_points[0]) ** 2 + (j - 31) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
+                if (i - mep_points[0]) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
                     index_tuple = (i, j, k)
                     if index_tuple not in unique_indices:
                         unique_indices.add(index_tuple)
@@ -50,7 +63,7 @@ for mep_points in mep_2:
     for i in range(fes_size[0]):
         for j in range(fes_size[1]):
             for k in range(fes_size[2]):
-                if (i - mep_points[0]) ** 2 + (j - 31) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
+                if (i - mep_points[0]) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
                     index_tuple = (i, j, k)
                     if index_tuple not in unique_indices:
                         unique_indices.add(index_tuple)
@@ -70,7 +83,7 @@ for mep_points in mep_3:
     for i in range(fes_size[0]):
         for j in range(fes_size[1]):
             for k in range(fes_size[2]):
-                if (i - mep_points[0]) ** 2 + (j - 31) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
+                if (i - mep_points[0]) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
                     index_tuple = (i, j, k)
                     if index_tuple not in unique_indices:
                         unique_indices.add(index_tuple)
@@ -90,7 +103,7 @@ for mep_points in mep_4:
     for i in range(fes_size[0]):
         for j in range(fes_size[1]):
             for k in range(fes_size[2]):
-                if (i - mep_points[0]) ** 2 + (j - 31) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
+                if (i - mep_points[0]) ** 2 + (k - mep_points[1]) ** 2 <= ra ** 2:
                     index_tuple = (i, j, k)
                     if index_tuple not in unique_indices:
                         unique_indices.add(index_tuple)
@@ -111,7 +124,6 @@ result_3 = np.column_stack((x_3, y_3, z_3, fes_3, H_3))
 
 H_4 = np.exp(-np.array(fes_4) / (kb * t))
 result_4 = np.column_stack((x_4, y_4, z_4, fes_4, H_4))
-
 
 arc_points_1 = mep_1
 arc_points_2 = mep_2
@@ -162,11 +174,11 @@ for i in range(M):
     for j in range(N):
         s_a += (j - 1) * np.exp(
             - c * (result_1[i][0] - arc_points_1[j, 0]) ** 2
-            - c * (result_1[i][1] - 31) ** 2
+            # - c * (result_1[i][1] - 31) ** 2
             - c * (result_1[i][2] - arc_points_1[j, 1]) ** 2)
         s_b += np.exp(
             - c * (result_1[i][0] - arc_points_1[j, 0]) ** 2
-            - c * (result_1[i][1] - 31) ** 2
+            # - c * (result_1[i][1] - 31) ** 2
             - c * (result_1[i][2] - arc_points_1[j, 1]) ** 2)
     s_i = 1 / (N - 1) * s_a / s_b
     s_1.append(s_i)
@@ -222,11 +234,11 @@ for i in range(M):
     for j in range(N):
         s_a += (j - 1) * np.exp(
             - c * (result_2[i][0] - arc_points_2[j, 0]) ** 2
-            - c * (result_2[i][1] - 31) ** 2
+            # - c * (result_2[i][1] - 31) ** 2
             - c * (result_2[i][2] - arc_points_2[j, 1]) ** 2)
         s_b += np.exp(
             - c * (result_2[i][0] - arc_points_2[j, 0]) ** 2
-            - c * (result_2[i][1] - 31) ** 2
+            # - c * (result_2[i][1] - 31) ** 2
             - c * (result_2[i][2] - arc_points_2[j, 1]) ** 2)
     s_i = 1 / (N - 1) * s_a / s_b
     s_2.append(s_i)
@@ -282,11 +294,11 @@ for i in range(M):
     for j in range(N):
         s_a += (j - 1) * np.exp(
             - c * (result_3[i][0] - arc_points_3[j, 0]) ** 2
-            - c * (result_3[i][1] - 31) ** 2
+            # - c * (result_3[i][1] - 31) ** 2
             - c * (result_3[i][2] - arc_points_3[j, 1]) ** 2)
         s_b += np.exp(
             - c * (result_3[i][0] - arc_points_3[j, 0]) ** 2
-            - c * (result_3[i][1] - 31) ** 2
+            # - c * (result_3[i][1] - 31) ** 2
             - c * (result_3[i][2] - arc_points_3[j, 1]) ** 2)
     s_i = 1 / (N - 1) * s_a / s_b
     s_3.append(s_i)
@@ -342,11 +354,11 @@ for i in range(M):
     for j in range(N):
         s_a += (j - 1) * np.exp(
             - c * (result_4[i][0] - arc_points_4[j, 0]) ** 2
-            - c * (result_4[i][1] - 31) ** 2
+            # - c * (result_4[i][1] - 31) ** 2
             - c * (result_4[i][2] - arc_points_4[j, 1]) ** 2)
         s_b += np.exp(
             - c * (result_4[i][0] - arc_points_4[j, 0]) ** 2
-            - c * (result_4[i][1] - 31) ** 2
+            # - c * (result_4[i][1] - 31) ** 2
             - c * (result_4[i][2] - arc_points_4[j, 1]) ** 2)
     s_i = 1 / (N - 1) * s_a / s_b
     s_4.append(s_i)
