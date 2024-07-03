@@ -58,3 +58,9 @@ plt.tight_layout()
 plt.savefig('combine_plot_700k_1000k.tif', dpi=300)
 plt.show()
 
+# print max
+print("700K Path-5 max: ", np.max(fes_a_700k))
+print("700K Path-6 max: ", np.max(fes_c_700k))
+print("1000K Path-5 max: ", np.max(fes_a_1000k))
+print("1000K Path-6 max: ", np.max(fes_c_1000k))
+
