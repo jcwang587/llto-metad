@@ -142,13 +142,13 @@ fig.add_trace(go.Scatter3d(x=result_3[:, 0], y=result_3[:, 1], z=result_3[:, 2],
                            marker=dict(size=0.5, color='green'), name='result_3'))
 fig.add_trace(go.Scatter3d(x=result_4[:, 0], y=result_4[:, 1], z=result_4[:, 2], mode='markers',
                            marker=dict(size=0.5, color='yellow'), name='result_4'))
-fig.add_trace(go.Scatter3d(x=arc_points_1[:, 0], y=np.ones(100) * 2, z=arc_points_1[:, 1], mode='markers',
+fig.add_trace(go.Scatter3d(x=arc_points_1[:, 0], y=np.ones(100) * 31, z=arc_points_1[:, 1], mode='markers',
                            marker=dict(size=5, color='red'), name='arc_points'))
-fig.add_trace(go.Scatter3d(x=arc_points_2[:, 0], y=np.ones(100) * 2, z=arc_points_2[:, 1], mode='markers',
+fig.add_trace(go.Scatter3d(x=arc_points_2[:, 0], y=np.ones(100) * 31, z=arc_points_2[:, 1], mode='markers',
                            marker=dict(size=5, color='blue'), name='arc_points'))
-fig.add_trace(go.Scatter3d(x=arc_points_3[:, 0], y=np.ones(100) * 2, z=arc_points_3[:, 1], mode='markers',
+fig.add_trace(go.Scatter3d(x=arc_points_3[:, 0], y=np.ones(100) * 31, z=arc_points_3[:, 1], mode='markers',
                            marker=dict(size=5, color='green'), name='arc_points'))
-fig.add_trace(go.Scatter3d(x=arc_points_4[:, 0], y=np.ones(100) * 2, z=arc_points_4[:, 1], mode='markers',
+fig.add_trace(go.Scatter3d(x=arc_points_4[:, 0], y=np.ones(100) * 31, z=arc_points_4[:, 1], mode='markers',
                            marker=dict(size=5, color='yellow'), name='arc_points'))
 
 # Setting labels
