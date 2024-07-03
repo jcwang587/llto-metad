@@ -3,13 +3,13 @@ import numpy as np
 from matplotlib.ticker import MultipleLocator, FuncFormatter
 
 # Load the data
-fes_a_700k = np.load('../03_700k/mep_fes_2_700k.npy')
+fes_a_700k = np.load('../03_700k/mep_fes_700k_path5-mir-rev.npy')
 fes_a_700k = fes_a_700k - np.min(fes_a_700k)
-fes_c_700k = np.load('../03_700k/mep_fes_1_700k.npy')
+fes_c_700k = np.load('../03_700k/mep_fes_700k_path6-mir-rev.npy')
 fes_c_700k = fes_c_700k - np.min(fes_c_700k)
-fes_a_1000k = np.load('../04_1000k/mep_fes_2_1000k.npy')
+fes_a_1000k = np.load('../04_1000k/mep_fes_1000k_path5-mir-rev.npy')
 fes_a_1000k = fes_a_1000k - np.min(fes_a_1000k)
-fes_c_1000k = np.load('../04_1000k/mep_fes_1_1000k.npy')
+fes_c_1000k = np.load('../04_1000k/mep_fes_1000k_path6-mir-rev.npy')
 fes_c_1000k = fes_c_1000k - np.min(fes_c_1000k)
 
 a_700k = np.linspace(0, 1, len(fes_a_700k))
