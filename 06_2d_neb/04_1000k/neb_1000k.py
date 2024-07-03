@@ -14,7 +14,7 @@ n_images = 100
 n_steps = 1000
 spring_constant = 0.2
 
-mep_1_1000k, mep_fes_1_1000k = neb_2d(
+mep_1000k_path6_mir_rev, mep_fes_1000k_path6_mir_rev = neb_2d(
     fes,
     local_minima_coords[0],
     local_minima_coords[1],
@@ -25,7 +25,7 @@ mep_1_1000k, mep_fes_1_1000k = neb_2d(
 
 # plot the minimum energy path
 plt.imshow(fes, cmap="viridis")
-plt.plot(mep_1_1000k[:, 1], mep_1_1000k[:, 0], "ro-")
+plt.plot(mep_1000k_path6_mir_rev[:, 1], mep_1000k_path6_mir_rev[:, 0], "ro-")
 plt.xlabel("Reaction coordinate 1")
 plt.ylabel("Reaction coordinate 2")
 for i, (x, y) in enumerate(local_minima_coords):
@@ -34,7 +34,7 @@ plt.colorbar()
 plt.savefig("mep_1000k_path6-mir-rev.png")
 plt.show()
 
-np.save("mep_fes_1000k_path6-mir-rev.npy", mep_fes_1_1000k)
+np.save("mep_fes_1000k_path6-mir-rev.npy", mep_fes_1000k_path6_mir_rev)
 
 
 fes = np.load("y_fes_1000k.npy")
@@ -49,7 +49,7 @@ n_images = 100
 n_steps = 1000
 spring_constant = 0.2
 
-mep_1_1000k, mep_fes_1_1000k = neb_2d(
+mep_1000k_path6_mir, mep_fes_1000k_path6_mir = neb_2d(
     fes,
     local_minima_coords[0],
     local_minima_coords[1],
@@ -60,7 +60,7 @@ mep_1_1000k, mep_fes_1_1000k = neb_2d(
 
 # plot the minimum energy path
 plt.imshow(fes, cmap="viridis")
-plt.plot(mep_1_1000k[:, 1], mep_1_1000k[:, 0], "ro-")
+plt.plot(mep_1000k_path6_mir[:, 1], mep_1000k_path6_mir[:, 0], "ro-")
 plt.xlabel("Reaction coordinate 1")
 plt.ylabel("Reaction coordinate 2")
 for i, (x, y) in enumerate(local_minima_coords):
@@ -69,7 +69,7 @@ plt.colorbar()
 plt.savefig("mep_1000k_path6-mir.png")
 plt.show()
 
-np.save("mep_fes_1000k_path6-mir.npy", mep_fes_1_1000k)
+np.save("mep_fes_1000k_path6-mir.npy", mep_fes_1000k_path6_mir)
 
 
 fes = np.load("y_fes_1000k.npy")
@@ -84,7 +84,7 @@ n_images = 100
 n_steps = 1000
 spring_constant = 0.2
 
-mep_2_1000k, mep_fes_2_1000k = neb_2d(
+mep_1000k_path5_mir_rev, mep_fes_1000k_path5_mir_rev = neb_2d(
     fes,
     local_minima_coords[0],
     local_minima_coords[1],
@@ -95,7 +95,7 @@ mep_2_1000k, mep_fes_2_1000k = neb_2d(
 
 # plot the minimum energy path
 plt.imshow(fes, cmap="viridis")
-plt.plot(mep_2_1000k[:, 1], mep_2_1000k[:, 0], "ro-")
+plt.plot(mep_1000k_path5_mir_rev[:, 1], mep_1000k_path5_mir_rev[:, 0], "ro-")
 plt.xlabel("Reaction coordinate 1")
 plt.ylabel("Reaction coordinate 2")
 for i, (x, y) in enumerate(local_minima_coords):
@@ -104,7 +104,7 @@ plt.colorbar()
 plt.savefig("mep_1000k_path5-mir-rev.png")
 plt.show()
 
-np.save("mep_1000k_path5-mir-rev.npy", mep_fes_2_1000k)
+np.save("mep_1000k_path5-mir-rev.npy", mep_fes_1000k_path5_mir_rev)
 
 
 fes = np.load("y_fes_1000k.npy")
@@ -119,7 +119,7 @@ n_images = 100
 n_steps = 1000
 spring_constant = 0.2
 
-mep_2_1000k, mep_fes_2_1000k = neb_2d(
+mep_1000k_path5_mir, mep_fes_1000k_path5_mir = neb_2d(
     fes,
     local_minima_coords[0],
     local_minima_coords[1],
@@ -130,7 +130,7 @@ mep_2_1000k, mep_fes_2_1000k = neb_2d(
 
 # plot the minimum energy path
 plt.imshow(fes, cmap="viridis")
-plt.plot(mep_2_1000k[:, 1], mep_2_1000k[:, 0], "ro-")
+plt.plot(mep_1000k_path5_mir[:, 1], mep_1000k_path5_mir[:, 0], "ro-")
 plt.xlabel("Reaction coordinate 1")
 plt.ylabel("Reaction coordinate 2")
 for i, (x, y) in enumerate(local_minima_coords):
@@ -139,4 +139,9 @@ plt.colorbar()
 plt.savefig("mep_1000k_path5-mir.png")
 plt.show()
 
-np.save("mep_1000k_path5-mir.npy", mep_fes_2_1000k)
+np.save("mep_1000k_path5-mir.npy", mep_fes_1000k_path5_mir)
+
+print("max mep_1000k_path6-mir-rev.npy", np.max(mep_fes_1000k_path6_mir_rev)-np.min(mep_fes_1000k_path6_mir_rev))
+print("max mep_1000k_path6-mir.npy", np.max(mep_fes_1000k_path6_mir)-np.min(mep_fes_1000k_path6_mir))
+print("max mep_1000k_path5-mir-rev.npy", np.max(mep_fes_1000k_path5_mir_rev)-np.min(mep_fes_1000k_path5_mir_rev))
+print("max mep_1000k_path5-mir.npy", np.max(mep_fes_1000k_path5_mir)-np.min(mep_fes_1000k_path5_mir))
