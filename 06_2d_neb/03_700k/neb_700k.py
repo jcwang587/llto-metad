@@ -8,7 +8,10 @@ fes = np.load("y_fes_700k.npy")
 # copy fes along the reaction coordinate 1
 fes = np.tile(fes, (1, 2))
 
-local_minima_coords = local_minima(fes)
+# remove the middle 13 columns of 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69
+fes = np.delete(fes, [57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69], axis=1)
+
+local_minima_coords = local_minima(fes, size=20)
 n_images = 100
 n_steps = 1000
 spring_constant = 0.2
@@ -40,7 +43,10 @@ fes = np.load("y_fes_700k.npy")
 # copy fes along the reaction coordinate 2
 fes = np.tile(fes, (2, 1))
 
-local_minima_coords = local_minima(fes)
+# remove the middle 13 rows of 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69
+fes = np.delete(fes, [57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69], axis=0)
+
+local_minima_coords = local_minima(fes, size=20)
 n_images = 100
 n_steps = 1000
 spring_constant = 0.2
