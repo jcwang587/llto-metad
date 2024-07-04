@@ -159,7 +159,7 @@ fig.update_layout(scene=dict(
     margin=dict(l=0, r=0, b=0, t=0))
 
 # Show the plot
-fig.write_html('3d_plot.html')
+fig.write_html('3d_plot_mep_100k.html')
 
 # project the data onto the arc
 M = len(result_1)
