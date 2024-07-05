@@ -19,7 +19,7 @@ d = 11.636 / 3 * 1e-10
 s = np.pi * d / 4 * (0.674887 - 0.269337)
 
 # Calculate rate and diffusion coefficients
-r_t300 = hop_rate(kb_eV, h_eV, r_eV, t, 0.165)
+r_t300 = hop_rate(kb_eV, h_eV, r_eV, t, 0.130075)
 d_t300 = r_t300 * (s ** 2) / 4
 print("rate_t300:", r_t300)
 print("diffusion_coefficient_t300:", d_t300)
