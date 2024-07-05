@@ -24,7 +24,7 @@ fig, ax1 = plt.subplots(figsize=(10, 6))
 ax1.set_xlabel(r'$\xi_2$', fontsize=20, labelpad=10)
 ax1.set_ylabel('Potential of Mean Force (eV)', fontsize=20, labelpad=10)
 
-ax1.plot(a_1000k, fes_a_1000k, color='#1a80bb', lw=4)
+ax1.plot(a_1000k, fes_a_1000k, color='#1a80bb', lw=5)
 ax1.plot(c_1000k, fes_c_1000k, color='#ea801c', lw=2)
 ax1.plot(a_700k, fes_a_700k, color='#1a80bb', lw=2, ls='--')
 ax1.plot(c_700k, fes_c_700k, color='#ea801c', lw=2, ls='--')
