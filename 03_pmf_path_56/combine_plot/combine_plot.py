@@ -17,18 +17,18 @@ fes_a_1000k = fes_a_1000k - np.min(fes_a_1000k)
 fes_c_1000k = np.load('1000k_c_fes.npy')
 fes_c_1000k = fes_c_1000k - np.min(fes_c_1000k)
 
-
 fig, ax1 = plt.subplots(figsize=(10, 6))
 
 # Plot H_bins as a histogram
 ax1.set_xlabel(r'$\xi_2$', fontsize=20, labelpad=10)
 ax1.set_ylabel('Potential of Mean Force (eV)', fontsize=20, labelpad=10)
 
-ax1.plot(a_700k, fes_a_700k, color='#1a80bb', lw=2, ls='--')
-ax1.plot(c_700k, fes_c_700k, color='#ea801c', lw=2, ls='--')
-ax1.plot(c_1000k, fes_c_1000k, color='#ea801c', lw=2)
 ax1.plot(a_1000k, fes_a_1000k, color='#1a80bb', lw=5)
+ax1.plot(c_1000k, fes_c_1000k, color='#ea801c', lw=2)
+ax1.plot(a_700k, fes_a_700k, color='#1a80bb', lw=2, ls='--')
+ax1.plot(c_700k, fes_c_700k, color='#ea801c', lw=5, ls='--', dashes=(1.6, 0.55))
 ax1.plot(a_1000k, fes_a_1000k, color='#1a80bb', lw=9, alpha=0.3)
+ax1.plot(c_700k, fes_c_700k, color='#ea801c', lw=9, alpha=0.3)
 ax1.tick_params(axis='y', labelsize=16)
 ax1.tick_params(axis='x', labelsize=16)
 ax1.grid(True, which='major', axis='x', linestyle='--')
@@ -54,10 +54,9 @@ ax1.yaxis.set_major_locator(MultipleLocator(0.05))
 ax1.yaxis.set_minor_locator(MultipleLocator(0.01))
 
 # set legend in two columns
-ax1.legend(['700K Path-5', '700K Path-6', '1000K Path-5', '1000K Path-6'],
+ax1.legend(['1000K Path-5', '1000K Path-6', '700K Path-5', '700K Path-6'],
            fontsize=16, loc='upper center', ncol=2)
 
 plt.tight_layout()
 plt.savefig('combine_plot_700k_1000k.tif', dpi=300)
 plt.show()
-
