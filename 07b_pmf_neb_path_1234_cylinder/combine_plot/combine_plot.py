@@ -4,12 +4,16 @@ from matplotlib.ticker import MultipleLocator, FuncFormatter
 
 # Load the data
 s_bins_1_100k = np.load('100k_s_bins_1.npy')
+s_bins_1_100k = s_bins_1_100k[::-1]
 s_bins_2_100k = np.load('100k_s_bins_2.npy')
 s_bins_3_100k = np.load('100k_s_bins_3.npy')
+s_bins_3_100k = s_bins_3_100k[::-1]
 s_bins_4_100k = np.load('100k_s_bins_4.npy')
 s_bins_1_300k = np.load('300k_s_bins_1.npy')
+s_bins_1_300k = s_bins_1_300k[::-1]
 s_bins_2_300k = np.load('300k_s_bins_2.npy')
 s_bins_3_300k = np.load('300k_s_bins_3.npy')
+s_bins_3_300k = s_bins_3_300k[::-1]
 s_bins_4_300k = np.load('300k_s_bins_4.npy')
 
 fes_smooth_1_100k = np.load('100k_fes_smooth_1.npy')
