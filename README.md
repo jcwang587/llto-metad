@@ -1,4 +1,4 @@
-# LLTO_METAD
+# LLTO-3d_MetaD
 
 ```bibtex
 @article{Wang2024LLTOMetaD,
